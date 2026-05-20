@@ -1,0 +1,13 @@
+# File temporanei editor
+*.swp
+*.swo
+*.save
+*~
+.DS_Store
+
+# Backup
+*.bak
+
+# IDE
+.vscode/
+.idea/
