@@ -193,6 +193,51 @@ body {
 .footer a:hover {
     color: #e63946;
 }
+/* ===== TEXT BLOCK (pagine progetto) ===== */
+.text-block {
+    max-width: 800px;
+    color: #aaa;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.text-block p {
+    margin-bottom: 16px;
+}
+
+.text-block ul {
+    list-style: none;
+    margin: 12px 0 20px 0;
+    padding-left: 0;
+}
+
+.text-block li {
+    padding: 6px 0 6px 20px;
+    position: relative;
+}
+
+.text-block li::before {
+    content: ">";
+    color: #e63946;
+    position: absolute;
+    left: 0;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+}
+
+.text-block strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+.text-block code {
+    background-color: #1a1a1a;
+    color: #e63946;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+}
 
 /* ===== RESPONSIVE MOBILE ===== */
 @media (max-width: 768px) {

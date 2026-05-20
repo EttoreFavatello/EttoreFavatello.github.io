@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable VM | Ettore Favatello</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="logo">~/ettore.portfolio</div>
+        <nav class="nav">
+            <a href="../index.html">← home</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-left">
+            <p class="label">Project / 00</p>
+            <h1 class="hero-name">Vulnerable VM</h1>
+        </div>
+        <div class="hero-right">
+            <p class="hero-bio">
+                Laboratorio Offensive Security in stile HackTheBox / VulnHub.
+                Macchina virtuale deliberatamente vulnerabile progettata per essere
+                compromessa attraverso una catena di attacco realistica composta da cinque fasi.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Overview</p>
+        <div class="text-block">
+            <p>
+                Progetto di sistemi operativi e networking sviluppato durante il percorso ITS
+                in cybersecurity. Ho costruito da zero una macchina virtuale deliberatamente
+                vulnerabile, configurata in modo da riprodurre uno scenario realistico di
+                compromissione: dall'enumerazione iniziale fino al privilege escalation finale
+                tramite un exploit kernel.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Setup del laboratorio</p>
+        <div class="text-block">
+            <p>
+                L'ambiente è basato su <strong>virt-manager</strong> con backend
+                <strong>KVM/QEMU</strong> — un hypervisor di tipo 1 integrato nel kernel Linux —
+                su cui ho configurato due macchine virtuali isolate in una rete NAT interna:
+            </p>
+            <ul>
+                <li><strong>Kali Linux</strong> — postazione attaccante</li>
+                <li><strong>Ubuntu Server 20.04.1 LTS</strong> — bersaglio</li>
+            </ul>
+            <p>
+                La VM vittima monta il kernel <code>5.8.0-63-generic</code>, vulnerabile al
+                <strong>CVE-2022-0847 (Dirty Pipe)</strong> — una falla del meccanismo delle pipe
+                che consente a un utente non privilegiato di sovrascrivere file di sola lettura
+                e ottenere privilegi root. Per mantenere attive le vulnerabilità ho disabilitato
+                le repository apt <code>focal-security</code>, impedendo l'installazione automatica
+                delle patch.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Vulnerabilità introdotte</p>
+        <div class="text-block">
+            <p>
+                Sul server ho installato uno stack <strong>LAMP</strong> (Apache, MySQL, PHP)
+                con WordPress 6.2 e il plugin <strong>Memphis Document Library 3.1.5</strong>,
+                affetto da una vulnerabilità di Arbitrary File Download. Ho inoltre piazzato:
+            </p>
+            <ul>
+                <li>Una <strong>backdoor PHP</strong> nella webroot (esecuzione comandi via parametro URL)</li>
+                <li>Uno script <code>backup.sh</code> contenente credenziali in chiaro, per simulare la negligenza di un sysadmin reale</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Catena di attacco</p>
+        <div class="grid">
+
+            <div class="card">
+                <div class="card-num">01</div>
+                <div class="card-title">Foothold</div>
+                <div class="card-desc">L'attaccante sfrutta il plugin WordPress vulnerabile o la backdoor PHP per ottenere esecuzione di codice, atterrando come utente www-data.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">02</div>
+                <div class="card-title">Lateral Movement</div>
+                <div class="card-desc">Recupera le credenziali esposte nello script backup.sh per autenticarsi come sysadmin e leggere il flag user.txt.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">03</div>
+                <div class="card-title">Privilege Escalation</div>
+                <div class="card-desc">L'utente normale non ha sudo. L'unica via è l'exploit Dirty Pipe (CVE-2022-0847) sul kernel 5.8 per ottenere root e leggere root.txt.</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Tool utilizzati</p>
+        <div class="grid">
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">nmap</div>
+                <div class="card-desc">Ricognizione iniziale dalla Kali. Ha rivelato le porte aperte (22 SSH, 80 HTTP) e il sistema operativo della VulnMachine.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">gobuster</div>
+                <div class="card-desc">Enumerazione di file e directory nascosti nella webroot. Ha trovato /backdoor.php, /backup.sh e /wordpress.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">curl</div>
+                <div class="card-desc">Download del contenuto di backup.sh dalla webroot, rivelando le credenziali in chiaro di sysadmin.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">Burp Suite</div>
+                <div class="card-desc">Scoperta del parametro corretto della backdoor PHP. Tramite Intruder ha testato 12 nomi comuni identificando "cmd" dall'analisi delle risposte.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">revshells.com</div>
+                <div class="card-desc">Generazione del payload reverse shell Python3 con IP e porta precompilati e URL encoding automatico.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">netcat (nc)</div>
+                <div class="card-desc">In modalità listener (nc -lvnp 4444) sulla Kali per ricevere la connessione della reverse shell dalla VulnMachine.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">Python3 pty</div>
+                <div class="card-desc">Stabilizzazione della reverse shell in una TTY completa con tab completion, Ctrl+C e history.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">SSH</div>
+                <div class="card-desc">Lateral movement con le credenziali trovate in backup.sh (sysadmin/sysadmin123) per autenticarsi sulla VulnMachine.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">gcc</div>
+                <div class="card-desc">Compilatore C usato direttamente sulla VulnMachine per compilare il sorgente dell'exploit Dirty Pipe.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">Dirty Pipe exploit</div>
+                <div class="card-desc">Exploit C (Arinerron, GitHub) per CVE-2022-0847. Sfrutta il meccanismo delle pipe del kernel 5.8 per modificare /etc/passwd e ottenere shell root.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">Python3 HTTP server</div>
+                <div class="card-desc">Server web temporaneo (python3 -m http.server 8000) sulla Kali per trasferire dirtypipe.c alla VulnMachine via HTTP.</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Competenze applicate</p>
+        <div class="text-block">
+            <p>
+                Virtualizzazione KVM, hardening Linux al contrario, configurazione servizi web,
+                vulnerability research, exploit development, kernel security.
+            </p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <a href="../index.html">[ ← torna alla home ]</a>
+        <a href="https://github.com/EttoreFavatello" target="_blank">[ github ]</a>
+    </footer>
+
+</body>
+
+</html>
