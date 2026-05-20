@@ -327,3 +327,28 @@ body {
     
 
 }
+
+/* ===== LAYOUT A DUE COLONNE ===== */
+.two-column-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background-color: #1f1f1f;
+    border: 1px solid #1f1f1f;
+}
+
+.card-stack .card {
+    min-height: auto;
+}
