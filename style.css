@@ -114,17 +114,6 @@ body {
     flex-wrap: wrap;
 }
 
-.hero-links a {
-    color: #888;
-    text-decoration: none;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    transition: color 0.2s;
-}
-
-.hero-links a:hover {
-    color: #e63946;
-}
 
 /* ===== SECTION ===== */
 .section {
