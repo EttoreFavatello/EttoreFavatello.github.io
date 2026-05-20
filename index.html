@@ -4,12 +4,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ettore Favatello | Cybersecurity</title>
+    <title>Ettore Favatello | Cybersecurity Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Ciao, sono Ettore</h1>
-    <p>Studente ITS presso SteveJobs Academy di Cybersecurity.</p>
+
+    <header class="topbar">
+        <div class="logo">~/ettore.portfolio</div>
+        <nav class="nav">
+            <a href="#about">about</a>
+            <a href="#skills">skills</a>
+            <a href="#projects">projects</a>
+            <a href="#contacts">contatti</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="about">
+        <div class="hero-left">
+            <p class="label">Cybersecurity Portfolio</p>
+            <h1 class="hero-name">Ettore Favatello</h1>
+        </div>
+        <div class="hero-right">
+            <p class="hero-bio">
+                Studente ITS in Cybersecurity presso Steve Jobs Academy — un percorso intensivo
+                da 1800 ore che copre sistemi operativi, Linux, networking, programmazione
+                (C e Python), database e diritto informatico (GDPR & NIS2). Appassionato di
+                penetration testing, CTF e sviluppo di tool per la sicurezza.
+            </p>
+        </div>
+    </section>
+
+    <section class="section" id="skills">
+        <p class="section-label">// Skills</p>
+        <div class="grid">
+
+            <div class="card">
+                <div class="card-num">00</div>
+                <div class="card-title">Linux</div>
+                <div class="card-desc">Architettura del kernel, gestione di processi e thread, scheduling, sincronizzazione, gestione della memoria, filesystem e permessi UNIX.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">01</div>
+                <div class="card-title">Networking</div>
+                <div class="card-desc">Stack TCP/IP completo — Applicazione (HTTP, HTTPS, DNS, FTP, SFTP, SMTP, IMAP, POP3, SSH), Trasporto (TCP, UDP), Internet (IP, ICMP, ARP), Accesso alla rete (Ethernet, Wi-Fi 802.11).</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">02</div>
+                <div class="card-title">Python</div>
+                <div class="card-desc">...OOP, strutture dati fondamentali (stack, queue, alberi, grafi) e algoritmi di visita e ricorsione.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">03</div>
+                <div class="card-title">Programmazione C</div>
+                <div class="card-desc">Concetti e procedimenti base.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">04</div>
+                <div class="card-title">SQL & Database</div>
+                <div class="card-desc">DDL/DML/DCL/TCL, JOIN, viste, ottimizzazione delle query con EXPLAIN e sicurezza dei DBMS.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">05</div>
+                <div class="card-title">Virtualizzazione</div>
+                <div class="card-desc">Hypervisor tipo 1 e 2, gestione VM con KVM e virt-manager, container con Docker e LXC.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">06</div>
+                <div class="card-title">GDPR & NIS2</div>
+                <div class="card-desc">Normativa europea sulla protezione dei dati personali e sulla sicurezza delle infrastrutture critiche.</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <p class="section-label">// Projects</p>
+        <div class="grid">
+
+            <a href="projects/vulnvm.html" class="card card-link">
+                <div class="card-num">00</div>
+                <div class="card-title">Vulnerable VM</div>
+                <div class="card-desc">Laboratorio offensive security in stile HackTheBox costruito da zero su KVM/QEMU. Catena d'attacco completa in cinque fasi: ricognizione, exploit di un plugin WordPress vulnerabile, foothold via reverse shell, lateral movement con credenziali esposte e privilege escalation finale tramite CVE-2022-0847 (Dirty Pipe).</div>
+            </a>
+
+        </div>
+    </section>
+
+    <footer class="footer" id="contacts">
+        <a href="https://github.com/EttoreFavatello" target="_blank">[ github ]</a>
+        <a href="https://www.linkedin.com/in/ettore-favatello-784a063b8/" target="_blank">[ linkedin ]</a>
+        <a href="mailto:3favate@gmail.com">[ email ]</a>
+    </footer>
+
 </body>
-<link rel="stylesheet" href="style.css">
+
 </html>
