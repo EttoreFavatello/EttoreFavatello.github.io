@@ -79,15 +79,15 @@ body {
 
 .hero-bio {
     color: #999;
-    font-size: 14px;
-    line-height: 1.8;
+    font-size: 19px;
+    line-height: 2.0;
     max-width: 500px;
 }
 
 .hero-links {
     display: flex;
-    gap: 16px;
-    margin-top: 20px;
+    gap: 30px;
+    margin-top: 50px;
     flex-wrap: wrap;
 }
 
@@ -95,7 +95,7 @@ body {
     color: #e63946;
     text-decoration: none;
     font-family: 'Courier New', monospace;
-    font-size: 13px;
+    font-size: 18px;
     transition: color 0.2s;
 }
 
@@ -107,7 +107,7 @@ body {
 .terminal-prompt {
     font-family: 'Courier New', monospace;
     color: #c9c9c9;
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 12px;
 }
 
@@ -139,7 +139,7 @@ body {
 
 .section-label {
     color: #e63946;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
