@@ -34,18 +34,6 @@ body {
     font-size: 16px;
 }
 
-.nav a {
-    color: #888;
-    text-decoration: none;
-    margin-left: 24px;
-    font-size: 14px;
-    transition: color 0.2s;
-}
-
-.nav a:hover {
-    color: #e63946;
-}
-
 /* ===== HERO ===== */
 .hero {
     display: flex;
@@ -74,11 +62,19 @@ body {
 
 .hero-name {
     color: #ffffff;
-    font-size: 50px;
+    font-size: 56px;
     font-weight: 900;
     line-height: 1.05;
     text-transform: uppercase;
     letter-spacing: -0.02em;
+    min-height: 1.1em;
+}
+
+.hero-name::after {
+    content: '█';
+    color: #e63946;
+    margin-left: 6px;
+    animation: blink 1s steps(2) infinite;
 }
 
 .hero-bio {
@@ -107,13 +103,34 @@ body {
     color: #ff5a6a;
 }
 
-.hero-links {
-    display: flex;
-    gap: 16px;
-    margin-top: 20px;
-    flex-wrap: wrap;
+/* ===== TERMINAL PROMPT ===== */
+.terminal-prompt {
+    font-family: 'Courier New', monospace;
+    color: #c9c9c9;
+    font-size: 14px;
+    margin-bottom: 12px;
 }
 
+.prompt-user {
+    color: #4ade80;
+    font-weight: 700;
+}
+
+.prompt-sep {
+    color: #888;
+}
+
+.prompt-path {
+    color: #58a6ff;
+    font-weight: 700;
+}
+
+/* ===== ANIMAZIONI ===== */
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
 
 /* ===== SECTION ===== */
 .section {
@@ -129,25 +146,56 @@ body {
     margin-bottom: 20px;
 }
 
-/* ===== GRID & CARD ===== */
+/* ===== GRID (per pagine progetto) ===== */
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2px;
     background-color: #1f1f1f;
     border: 1px solid #1f1f1f;
 }
 
+/* ===== LAYOUT A DUE COLONNE (homepage) ===== */
+.two-column-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background-color: #1f1f1f;
+    border: 1px solid #1f1f1f;
+}
+
+.card-stack .card {
+    min-height: auto;
+}
+
+/* ===== CARD ===== */
 .card {
     background-color: #111;
     padding: 24px;
     min-height: 180px;
-    transition: background-color 0.2s;
+    border: 1px solid transparent;
+    transition: background-color 0.2s, box-shadow 0.25s, border-color 0.25s;
     cursor: default;
 }
 
 .card:hover {
     background-color: #1a0505;
+    border-color: #e63946;
+    box-shadow: 0 0 20px rgba(230, 57, 70, 0.25);
+    position: relative;
+    z-index: 1;
 }
 
 .card-link {
@@ -155,14 +203,6 @@ body {
     color: inherit;
     display: block;
     cursor: pointer;
-}
-
-.card-link:hover {
-    background-color: #1a0505;
-}
-
-/* ===== FRECCIA CARD CLICCABILI ===== */
-.card-link {
     position: relative;
 }
 
@@ -200,31 +240,6 @@ body {
     line-height: 1.6;
 }
 
-/* ===== FOOTER ===== */
-.footer {
-    padding: 30px 40px;
-    border-top: 1px solid #1f1f1f;
-    margin-top: 40px;
-    text-align: center;
-}
-
-.footer p {
-    color: #555;
-    font-size: 12px;
-    font-family: 'Courier New', monospace;
-}
-
-.footer a {
-    color: #666;
-    text-decoration: none;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    transition: color 0.2s;
-}
-
-.footer a:hover {
-    color: #e63946;
-}
 /* ===== TEXT BLOCK (pagine progetto) ===== */
 .text-block {
     max-width: 800px;
@@ -271,17 +286,24 @@ body {
     font-size: 13px;
 }
 
+/* ===== FOOTER ===== */
+.footer {
+    padding: 30px 40px;
+    border-top: 1px solid #1f1f1f;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.footer p {
+    color: #555;
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+}
+
 /* ===== RESPONSIVE MOBILE ===== */
 @media (max-width: 768px) {
     .topbar {
         padding: 16px 20px;
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .nav a {
-        margin-left: 12px;
-        margin-right: 12px;
     }
 
     .hero {
@@ -309,35 +331,6 @@ body {
     }
 
     .footer {
-        flex-direction: column;
-        gap: 12px;
         padding: 24px 20px;
     }
-    
-
-}
-
-/* ===== LAYOUT A DUE COLONNE ===== */
-.two-column-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    padding: 40px;
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-}
-
-.card-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    background-color: #1f1f1f;
-    border: 1px solid #1f1f1f;
-}
-
-.card-stack .card {
-    min-height: auto;
 }
