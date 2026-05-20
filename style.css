@@ -134,6 +134,24 @@ body {
     background-color: #1a0505;
 }
 
+/* ===== FRECCIA CARD CLICCABILI ===== */
+.card-link {
+    position: relative;
+}
+
+.card-arrow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #e63946;
+    font-size: 20px;
+    transition: transform 0.2s;
+}
+
+.card-link:hover .card-arrow {
+    transform: translate(4px, -4px);
+}
+
 .card-num {
     color: #e63946;
     font-size: 12px;
