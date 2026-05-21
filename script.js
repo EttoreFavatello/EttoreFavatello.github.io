@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!target) return;
 
     let pendulumRAF = null;
-    const g_over_L = 80;
+    const g_over_L = 32;
     const damping = 0.50;
 
     function startPendulum(element) {
