@@ -334,3 +334,12 @@ body {
         padding: 24px 20px;
     }
 }
+
+/* ===== PENDOLO O ===== */
+.swinging-o {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: baseline;
+    transform-origin: 50% 95%;
+    will-change: transform;
+}
