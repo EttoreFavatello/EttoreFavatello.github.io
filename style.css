@@ -1,3 +1,4 @@
+cat > style.css << 'EOF'
 /* ===== RESET BASE ===== */
 * {
     margin: 0;
@@ -31,7 +32,19 @@ body {
     font-family: 'Courier New', monospace;
     color: #e63946;
     font-weight: 700;
+    font-size: 19px;
+}
+
+.nav a {
+    color: #888;
+    text-decoration: none;
+    font-family: 'Courier New', monospace;
     font-size: 16px;
+    transition: color 0.2s;
+}
+
+.nav a:hover {
+    color: #e63946;
 }
 
 /* ===== HERO ===== */
@@ -53,7 +66,7 @@ body {
 
 .label {
     color: #e63946;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -62,7 +75,7 @@ body {
 
 .hero-name {
     color: #ffffff;
-    font-size: 30px;
+    font-size: 67px;
     font-weight: 900;
     line-height: 1.05;
     text-transform: uppercase;
@@ -81,7 +94,7 @@ body {
     color: #999;
     font-size: 17px;
     line-height: 1.7;
-    max-width: 5000px;
+    max-width: 500px;
 }
 
 .hero-links {
@@ -95,7 +108,7 @@ body {
     color: #e63946;
     text-decoration: none;
     font-family: 'Courier New', monospace;
-    font-size: 18px;
+    font-size: 16px;
     transition: color 0.2s;
 }
 
@@ -107,7 +120,7 @@ body {
 .terminal-prompt {
     font-family: 'Courier New', monospace;
     color: #c9c9c9;
-    font-size: 18px;
+    font-size: 17px;
     margin-bottom: 12px;
 }
 
@@ -139,7 +152,7 @@ body {
 
 .section-label {
     color: #e63946;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -211,7 +224,7 @@ body {
     top: 20px;
     right: 20px;
     color: #e63946;
-    font-size: 20px;
+    font-size: 24px;
     transition: transform 0.2s;
 }
 
@@ -221,7 +234,7 @@ body {
 
 .card-num {
     color: #e63946;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.1em;
     margin-bottom: 14px;
@@ -229,14 +242,14 @@ body {
 
 .card-title {
     color: #ffffff;
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 700;
     margin-bottom: 10px;
 }
 
 .card-desc {
     color: #888;
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.6;
 }
 
@@ -244,7 +257,7 @@ body {
 .text-block {
     max-width: 800px;
     color: #aaa;
-    font-size: 14px;
+    font-size: 17px;
     line-height: 1.8;
 }
 
@@ -283,7 +296,7 @@ body {
     padding: 2px 8px;
     border-radius: 3px;
     font-family: 'Courier New', monospace;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 /* ===== FOOTER ===== */
@@ -296,7 +309,7 @@ body {
 
 .footer p {
     color: #555;
-    font-size: 12px;
+    font-size: 14px;
     font-family: 'Courier New', monospace;
 }
 
@@ -313,7 +326,7 @@ body {
     }
 
     .hero-name {
-        font-size: 36px;
+        font-size: 43px;
     }
 
     .section {
@@ -343,3 +356,4 @@ body {
     transform-origin: 50% 95%;
     will-change: transform;
 }
+EOF
