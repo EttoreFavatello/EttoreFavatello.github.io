@@ -6,6 +6,15 @@ cat > style.css << 'EOF'
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background: #d4ff00;
+    color: #000;
+}
+
 /* ===== BODY ===== */
 body {
     background-color: #0a0a0a;
@@ -22,7 +31,7 @@ body {
     justify-content: space-between;
     padding: 20px 40px;
     background-color: #0f0f0f;
-    border-bottom: 1px solid #1f1f1f;
+    border-bottom: 1px solid #d4ff00;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -30,7 +39,7 @@ body {
 
 .logo {
     font-family: 'Courier New', monospace;
-    color: #e63946;
+    color: #d4ff00;
     font-weight: 700;
     font-size: 19px;
 }
@@ -44,7 +53,7 @@ body {
 }
 
 .nav a:hover {
-    color: #e63946;
+    color: #d4ff00;
 }
 
 /* ===== HERO ===== */
@@ -65,7 +74,7 @@ body {
 }
 
 .label {
-    color: #e63946;
+    color: #d4ff00;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.15em;
@@ -74,7 +83,7 @@ body {
 }
 
 .hero-name {
-    color: #ffffff;
+    color: #d4ff00;
     font-size: 42px;
     font-weight: 900;
     line-height: 1.05;
@@ -85,13 +94,13 @@ body {
 
 .hero-name::after {
     content: '█';
-    color: #e63946;
+    color: #d4ff00;
     margin-left: 6px;
     animation: blink 1s steps(2) infinite;
 }
 
 .hero-bio {
-    color: #999;
+    color: #c9c9c9;
     font-size: 17px;
     line-height: 1.7;
     max-width: 500px;
@@ -105,7 +114,7 @@ body {
 }
 
 .hero-links a {
-    color: #e63946;
+    color: #d4ff00;
     text-decoration: none;
     font-family: 'Courier New', monospace;
     font-size: 16px;
@@ -113,35 +122,33 @@ body {
 }
 
 .hero-links a:hover {
-    color: #ff5a6a;
+    color: #00e5ff;
 }
 
 /* ===== TERMINAL PROMPT ===== */
 .terminal-prompt {
     font-family: 'Courier New', monospace;
-    color: #c9c9c9;
+    color: #ffffff;
     font-size: 22px;
 }
 
 .prompt-user {
-    color: #4ade80;
+    color: #d4ff00;
     font-weight: 700;
 }
 
 .prompt-sep {
-    color: #888;
+    color: #555;
 }
 
 .prompt-path {
-    color: #58a6ff;
+    color: #00e5ff;
     font-weight: 700;
 }
 
 /* ===== ANIMAZIONI ===== */
 @keyframes blink {
-    50% {
-        opacity: 0;
-    }
+    50% { opacity: 0; }
 }
 
 /* ===== SECTION ===== */
@@ -150,7 +157,7 @@ body {
 }
 
 .section-label {
-    color: #e63946;
+    color: #00e5ff;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.15em;
@@ -158,7 +165,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* ===== GRID (per pagine progetto) ===== */
+/* ===== GRID ===== */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -167,7 +174,7 @@ body {
     border: 1px solid #1f1f1f;
 }
 
-/* ===== LAYOUT A DUE COLONNE (homepage) ===== */
+/* ===== LAYOUT A DUE COLONNE ===== */
 .two-column-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -192,20 +199,21 @@ body {
     min-height: auto;
 }
 
-/* ===== CARD ===== */
+/* ===== CARD (BIANCHE — VARIANTE A F1) ===== */
 .card {
-    background-color: #111;
+    background-color: #ffffff;
     padding: 24px;
     min-height: 180px;
     border: 1px solid transparent;
-    transition: background-color 0.2s, box-shadow 0.25s, border-color 0.25s;
+    transition: background-color 0.25s, box-shadow 0.3s, border-color 0.25s, transform 0.25s;
     cursor: default;
 }
 
 .card:hover {
-    background-color: #1a0505;
-    border-color: #e63946;
-    box-shadow: 0 0 20px rgba(230, 57, 70, 0.25);
+    background-color: #fffce5;
+    border-color: #d4ff00;
+    box-shadow: 0 6px 28px rgba(212, 255, 0, 0.45);
+    transform: translateY(-2px);
     position: relative;
     z-index: 1;
 }
@@ -222,7 +230,7 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    color: #e63946;
+    color: #b8d400;
     font-size: 24px;
     transition: transform 0.2s;
 }
@@ -232,7 +240,7 @@ body {
 }
 
 .card-num {
-    color: #e63946;
+    color: #b8d400;
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -240,14 +248,14 @@ body {
 }
 
 .card-title {
-    color: #ffffff;
+    color: #000000;
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 10px;
 }
 
 .card-desc {
-    color: #888;
+    color: #444444;
     font-size: 16px;
     line-height: 1.6;
 }
@@ -255,7 +263,7 @@ body {
 /* ===== TEXT BLOCK (pagine progetto) ===== */
 .text-block {
     max-width: 800px;
-    color: #aaa;
+    color: #c9c9c9;
     font-size: 17px;
     line-height: 1.8;
 }
@@ -277,7 +285,7 @@ body {
 
 .text-block li::before {
     content: ">";
-    color: #e63946;
+    color: #d4ff00;
     position: absolute;
     left: 0;
     font-family: 'Courier New', monospace;
@@ -285,13 +293,13 @@ body {
 }
 
 .text-block strong {
-    color: #fff;
+    color: #ffffff;
     font-weight: 600;
 }
 
 .text-block code {
     background-color: #1a1a1a;
-    color: #e63946;
+    color: #d4ff00;
     padding: 2px 8px;
     border-radius: 3px;
     font-family: 'Courier New', monospace;
@@ -314,37 +322,13 @@ body {
 
 /* ===== RESPONSIVE MOBILE ===== */
 @media (max-width: 768px) {
-    .topbar {
-        padding: 16px 20px;
-    }
-
-    .hero {
-        flex-direction: column;
-        padding: 40px 20px;
-        gap: 20px;
-    }
-
-    .hero-name {
-        font-size: 32px;
-    }
-
-    .section {
-        padding: 30px 20px 20px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .two-column-section {
-        grid-template-columns: 1fr;
-        padding: 20px;
-        gap: 30px;
-    }
-
-    .footer {
-        padding: 24px 20px;
-    }
+    .topbar { padding: 16px 20px; }
+    .hero { flex-direction: column; padding: 40px 20px; gap: 20px; }
+    .hero-name { font-size: 32px; }
+    .section { padding: 30px 20px 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .two-column-section { grid-template-columns: 1fr; padding: 20px; gap: 30px; }
+    .footer { padding: 24px 20px; }
 }
 
 /* ===== PENDOLO O ===== */
