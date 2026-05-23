@@ -88,7 +88,7 @@ body {
     line-height: 1.05;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    min-height: 1.1em;
+    min-height: 2.5em;
 }
 
 .hero-name::after {
@@ -128,7 +128,7 @@ body {
 .terminal-prompt {
     font-family: 'Courier New', monospace;
     color: #ffffff;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .prompt-user {
