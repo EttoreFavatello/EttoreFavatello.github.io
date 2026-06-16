@@ -58,6 +58,7 @@ body {
 /* ===== HERO ===== */
 .hero {
     display: flex;
+    align-items: center;
     gap: 40px;
     padding: 60px 40px 50px;
     border-bottom: 1px solid #1f1f1f;
@@ -323,7 +324,6 @@ body {
 @media (max-width: 768px) {
     .topbar { padding: 16px 20px; }
     .hero { flex-direction: column; padding: 40px 20px; gap: 20px; }
-    .terminal-prompt { margin-top: 20px; }
     .hero-left { padding-top: 0; }
     .hero-left { padding-top: 0; }
     .hero-name { font-size: 32px; }
