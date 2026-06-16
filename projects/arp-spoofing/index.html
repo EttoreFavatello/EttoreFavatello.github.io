@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARP Spoofing & Detection | Ettore Favatello</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="logo">~/ettore.portfolio</div>
+        <nav class="nav">
+            <a href="../../">← home</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-left">
+            <p class="label">Project / 00</p>
+            <h1 class="hero-name">ARP Spoofing</h1>
+        </div>
+        <div class="hero-right">
+            <p class="hero-bio">
+                Attacco Man-in-the-Middle tramite ARP cache poisoning, con intercettazione
+                del traffico e sviluppo di strumenti Python per automatizzare attacco,
+                ripristino e rilevamento. Progetto offensivo e difensivo a scopo didattico.
+            </p>
+            <div class="hero-links">
+                <a href="../../">[ ← home ]</a>
+                <a href="https://github.com/EttoreFavatello/arp-spoofing" target="_blank" rel="noopener noreferrer">[ codice su github ]</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Nota etica</p>
+        <div class="text-block">
+            <p>
+                L'intero progetto è stato sviluppato e testato in un <strong>laboratorio isolato</strong>
+                — macchine virtuali su rete privata — esclusivamente a <strong>scopo didattico</strong>.
+                L'ARP spoofing eseguito su reti non autorizzate è illegale. Lo scopo di questo lavoro è
+                comprendere il funzionamento dell'attacco per saperlo riconoscere e difendere.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Overview</p>
+        <div class="text-block">
+            <p>
+                Il protocollo ARP non prevede alcun meccanismo di autenticazione: una macchina si fida
+                ciecamente delle risposte ARP che riceve. Questo progetto sfrutta tale debolezza per
+                inserirsi tra due host (una vittima e il gateway), intercettando il traffico che si
+                scambiano, per poi sviluppare gli strumenti di automazione e di difesa.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Setup del laboratorio</p>
+        <div class="text-block">
+            <p>
+                L'ambiente è composto da macchine virtuali isolate su rete privata:
+            </p>
+            <ul>
+                <li><strong>Kali Linux</strong> — attaccante, posizionato come Man-in-the-Middle</li>
+                <li><strong>Metasploitable</strong> — macchina vittima</li>
+                <li><strong>pfSense</strong> — firewall/router, gateway della rete</li>
+            </ul>
+            <p>
+                Tutto il traffico tra la vittima e il gateway viene fatto transitare attraverso la Kali,
+                permettendo l'analisi del traffico intercettato.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Fasi del progetto</p>
+        <div class="grid">
+
+            <div class="card">
+                <div class="card-num">01</div>
+                <div class="card-title">Attacco manuale</div>
+                <div class="card-desc">Avvelenamento delle cache ARP con il tool arpspoof (suite dsniff) e analisi in tempo reale del traffico intercettato tra le due vittime tramite Wireshark.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">02</div>
+                <div class="card-title">Automazione attacco</div>
+                <div class="card-desc">Script Python (Scapy) che avvelena entrambi gli estremi in loop, abilita l'IP forwarding per non interrompere la connettività, e al Ctrl+C ripristina le cache ARP originali cancellando le tracce.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">03</div>
+                <div class="card-title">Automazione difesa</div>
+                <div class="card-desc">Script Python passivo che cattura il traffico ARP, costruisce una tabella delle associazioni IP-MAC e genera un'allerta quando un MAC inizia a dichiarare un IP diverso da quello già registrato.</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Strumento 1 — Attacco e ripristino</p>
+        <div class="text-block">
+            <p>
+                Il primo programma avvelena entrambi gli estremi della comunicazione: comunica alla
+                vittima che il gateway si trova al MAC dell'attaccante e, simmetricamente, comunica al
+                gateway che la vittima si trova al MAC dell'attaccante. L'invio è ripetuto in un ciclo
+                continuo per mantenere le cache "avvelenate".
+            </p>
+            <p>
+                Per non interrompere la connettività della vittima — cosa che trasformerebbe l'attacco
+                in un semplice Denial of Service — si abilita l'<strong>IP forwarding</strong> sulla
+                macchina attaccante, che inoltra il traffico verso il gateway reale: la vittima continua
+                a navigare mentre il traffico resta intercettabile.
+            </p>
+            <p>
+                Alla chiusura del programma (<code>Ctrl+C</code>), una routine di ripristino invia
+                risposte ARP con i MAC originali, riportando le tabelle allo stato corretto e cancellando
+                le tracce dell'attacco.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Strumento 2 — Rilevamento</p>
+        <div class="text-block">
+            <p>
+                Il secondo programma agisce in modo passivo: cattura tutto il traffico ARP della rete e
+                costruisce progressivamente una tabella delle associazioni osservate. Quando rileva
+                un'incoerenza tipica dell'avvelenamento — ovvero un MAC che inizia a dichiarare un
+                indirizzo IP diverso da quello già registrato — genera un messaggio di allerta.
+            </p>
+            <p>
+                È il rovescio difensivo dell'attacco: dimostra come lo stesso comportamento anomalo che
+                rende possibile lo spoofing possa essere usato per individuarlo.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Esecuzione</p>
+        <div class="text-block">
+            <p>Avvio dell'attacco (richiede IP forwarding e privilegi di root):</p>
+            <ul>
+                <li><code>sudo sysctl -w net.ipv4.ip_forward=1</code></li>
+                <li><code>sudo python3 arp_attack.py &lt;ip_vittima&gt; &lt;ip_gateway&gt;</code></li>
+            </ul>
+            <p>Avvio del rilevatore, in ascolto passivo sul traffico ARP:</p>
+            <ul>
+                <li><code>sudo python3 arp_detector.py</code></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Competenze applicate</p>
+        <div class="text-block">
+            <p>
+                Protocollo ARP, attacchi Man-in-the-Middle, IP forwarding, analisi del traffico con
+                Wireshark, scripting offensivo e difensivo in Python con Scapy, virtualizzazione e
+                progettazione di reti isolate.
+            </p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Ettore Favatello</p>
+    </footer>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d2946aadaf284032945daa6f8f2a23fa"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+</body>
+
+</html>
