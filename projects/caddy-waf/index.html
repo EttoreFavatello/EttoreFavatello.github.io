@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAF Reverse Proxy | Ettore Favatello</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="logo">~/ettore.portfolio</div>
+        <nav class="nav">
+            <a href="../../">← home</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-left">
+            <p class="label">Project / 02</p>
+            <h1 class="hero-name">WAF Reverse Proxy</h1>
+        </div>
+        <div class="hero-right">
+            <p class="hero-bio">
+                Reverse proxy Caddy con Web Application Firewall (Coraza + OWASP Core Rule Set),
+                terminazione TLS e load balancing su due backend. Tutto il traffico viene ispezionato
+                prima di raggiungere i server, invisibili dall'esterno.
+            </p>
+            <div class="hero-links">
+                <a href="../../">[ ← home ]</a>
+                <a href="https://github.com/EttoreFavatello/caddy-waf-lab" target="_blank" rel="noopener noreferrer">[ codice su github ]</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Nota</p>
+        <div class="text-block">
+            <p>
+                Progetto sviluppato in ambiente di <strong>laboratorio a scopo didattico</strong>,
+                costruito insieme al docente durante il percorso ITS. Il dominio <code>lab.local</code>
+                e i backend che rispondono "A" e "B" sono artifici per rendere osservabile il
+                comportamento dello stack.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Overview</p>
+        <div class="text-block">
+            <p>
+                Un <strong>WAF in reverse proxy</strong>: tutto il traffico entra da Caddy, che prima
+                lo fa ispezionare a Coraza contro le regole OWASP CRS, e solo se supera il controllo lo
+                inoltra — bilanciato — a uno dei due backend. Se la richiesta è ostile, viene bloccata
+                con un <code>403 Forbidden</code> prima ancora di raggiungere il backend.
+            </p>
+            <p>
+                L'obiettivo del progetto non è solo far funzionare lo stack, ma saperlo
+                <strong>leggere, interrogare e capire nei suoi limiti</strong> — la mentalità difensiva
+                che serve a un analista SOC per riconoscere cosa un WAF vede e cosa può aggirare.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Architettura</p>
+        <div class="text-block">
+            <p>
+                Caddy è l'unico servizio esposto. La richiesta segue questo flusso:
+            </p>
+            <ul>
+                <li>Il client si connette in <strong>HTTPS</strong> su <code>lab.local</code> (TLS terminato da Caddy)</li>
+                <li>La direttiva <code>order coraza_waf first</code> fa ispezionare la richiesta a Coraza <strong>prima</strong> di ogni altra cosa</li>
+                <li>Se la richiesta è ostile → <strong>403</strong>, il backend non la vede mai</li>
+                <li>Se è pulita → prosegue al <code>reverse_proxy</code>, che la bilancia su backend-a o backend-b</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Componenti</p>
+        <div class="grid">
+
+            <div class="card">
+                <div class="card-num">01</div>
+                <div class="card-title">WAF in reverse proxy</div>
+                <div class="card-desc">Ispezione della richiesta contro le regole OWASP CRS prima dell'inoltro. Il backend riceve solo traffico già filtrato.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">02</div>
+                <div class="card-title">Health check attivi</div>
+                <div class="card-desc">Caddy testa i backend ogni 5 secondi e li toglie dalla rotazione se non rispondono con un 200, prima che un utente ne paghi il guasto.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">03</div>
+                <div class="card-title">Regole custom</div>
+                <div class="card-desc">Una regola deny diretta (blocco immediato) e una pass + setvar che contribuisce all'anomaly score del CRS, per capire i due modelli di decisione.</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Tool utilizzati</p>
+        <div class="grid">
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">Caddy</div>
+                <div class="card-desc">Reverse proxy che termina il TLS, bilancia il carico e ospita il WAF. Unico servizio esposto all'esterno.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">Coraza</div>
+                <div class="card-desc">Motore Web Application Firewall compatibile con SecLang, erede open source di ModSecurity, integrato in Caddy.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">OWASP CRS</div>
+                <div class="card-desc">Core Rule Set: set di regole di sicurezza basato su anomaly scoring, che assegna punti agli indizi di attacco fino a una soglia di blocco.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">Docker Compose</div>
+                <div class="card-desc">Orchestrazione dei container dello stack: Caddy e i due backend nginx su rete interna isolata.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">nginx</div>
+                <div class="card-desc">I due backend dietro il proxy, ciascuno serve una pagina distinguibile ("A" e "B") per rendere osservabile il load balancing.</div>
+            </div>
+
+            <div class="card">
+                <div class="card-num">tool</div>
+                <div class="card-title">xcaddy</div>
+                <div class="card-desc">Build tool per compilare Caddy con il modulo Coraza incluso, tramite un Dockerfile multi-stage.</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Highlight — Load balancing analizzato sui dati reali</p>
+        <div class="text-block">
+            <p>
+                Un dettaglio poco noto: il comportamento di default del load balancing di Caddy non è
+                il <strong>round robin</strong> (come in NGINX), ma la politica <strong>random</strong>.
+                L'ho verificato empiricamente registrando 1000 richieste reali:
+            </p>
+            <ul>
+                <li><strong>472 risposte da A, 528 da B</strong> — non 500/500 netti: è la normale fluttuazione statistica di 1000 scelte casuali</li>
+                <li><strong>Lo stesso backend risponde spesso due volte di fila</strong> (AA=210, BB=266) — cosa che il round robin renderebbe impossibile</li>
+            </ul>
+            <p>
+                Portare dati misurati a sostegno di un'affermazione tecnica, invece di ripetere quello
+                che dice un manuale, è esattamente la mentalità che distingue un'analisi da un'opinione.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <p class="section-label">// Competenze applicate</p>
+        <div class="text-block">
+            <p>
+                Web Application Firewall, reverse proxy, OWASP Core Rule Set e anomaly scoring,
+                regole SecLang, TLS, load balancing e health check, Docker e container, analisi del
+                traffico e mentalità difensiva (blue team).
+            </p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Ettore Favatello</p>
+    </footer>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d2946aadaf284032945daa6f8f2a23fa"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+</body>
+
+</html>
